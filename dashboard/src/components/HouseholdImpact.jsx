@@ -28,9 +28,9 @@ export default function HouseholdImpact({ stats, comparison }) {
       <div className="section-heading" style={{ animationDelay: "0.35s" }}>
         <h2>What this means for households</h2>
         <p>
-          Using PolicyEngine's microsimulation model, we calculated average
-          household net income for six household groups under pre-Spring
-          Statement and Spring Statement 2026 forecasts.
+          Using PolicyEngine's microsimulation model, we estimated the effect
+          of the above economic forecast changes on average household net
+          income for six household groups.
         </p>
       </div>
 

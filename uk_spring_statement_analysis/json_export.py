@@ -113,10 +113,20 @@ def export_household_data(baseline_stats, reformed_stats=None):
     # household_stats.json
     stats = []
     for _, row in baseline_stats.iterrows():
+        label = row["group"]
+        # Use reformed (post-Statement) median when available
+        if reformed_stats is not None:
+            median_val = float(
+                reformed_stats.loc[
+                    reformed_stats["group"] == label, "median_hnet"
+                ].iloc[0]
+            )
+        else:
+            median_val = float(row["median_hnet"])
         stats.append({
-            "group": row["group"],
+            "group": label,
             "mean_hnet": round(float(row["mean_hnet"])),
-            "median_hnet": round(float(row["median_hnet"])),
+            "median_hnet": round(median_val),
             "weighted_n": round(float(row["weighted_n"])),
         })
 

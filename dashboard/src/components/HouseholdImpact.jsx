@@ -43,7 +43,7 @@ function HnetBarChart({ data }) {
           <BarChart
             data={chartData}
             layout="vertical"
-            margin={{ top: 10, right: 30, left: 130, bottom: 0 }}
+            margin={{ top: 10, right: 40, left: 10, bottom: 0 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis
@@ -54,7 +54,7 @@ function HnetBarChart({ data }) {
             <YAxis
               type="category"
               dataKey="group"
-              width={120}
+              width={140}
               tick={{ fontSize: 13 }}
             />
             <Tooltip

@@ -160,6 +160,14 @@
   animation-delay: 0.3s;
 }
 
+.charts-grid > div:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.charts-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
 .charts-grid > div:hover {
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.04),
@@ -335,7 +343,8 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .charts-grid {
+  .charts-grid,
+  .charts-grid-3 {
     grid-template-columns: 1fr;
   }
 

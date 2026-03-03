@@ -115,7 +115,7 @@ export default function EconomicForecast({ forecast, baseline }) {
         </p>
       </div>
 
-      <div className="charts-grid">
+      <div className="charts-grid charts-grid-3">
         <ForecastLineChart
           data={forecast.earnings_growth}
           title="Earnings growth"
@@ -128,9 +128,15 @@ export default function EconomicForecast({ forecast, baseline }) {
           description="OBR projected Consumer Price Index year-on-year growth"
           unit="%"
         />
+        <ForecastLineChart
+          data={forecast.rpi_inflation}
+          title="RPI inflation"
+          description="OBR projected Retail Price Index year-on-year growth"
+          unit="%"
+        />
       </div>
 
-      <div className="charts-grid">
+      <div className="charts-grid charts-grid-3">
         <div className="section-card" style={{ margin: 0 }}>
           <h3>Earnings growth data</h3>
           <ForecastTable columns={columns} rows={earningsRows} />
@@ -139,15 +145,6 @@ export default function EconomicForecast({ forecast, baseline }) {
           <h3>CPI inflation data</h3>
           <ForecastTable columns={columns} rows={inflationRows} />
         </div>
-      </div>
-
-      <div className="charts-grid">
-        <ForecastLineChart
-          data={forecast.rpi_inflation}
-          title="RPI inflation"
-          description="OBR projected Retail Price Index year-on-year growth"
-          unit="%"
-        />
         <div className="section-card" style={{ margin: 0 }}>
           <h3>RPI inflation data</h3>
           <ForecastTable columns={columns} rows={rpiRows} />

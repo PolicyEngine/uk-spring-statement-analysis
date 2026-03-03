@@ -1,33 +1,75 @@
-import useData from "./hooks/useData";
-import Header from "./components/Header";
+import { useState, useEffect } from "react";
 import EconomicForecast from "./components/EconomicForecast";
 import FiscalOutlook from "./components/FiscalOutlook";
 import HouseholdImpact from "./components/HouseholdImpact";
-import Footer from "./components/Footer";
+import "./App.css";
 
-export default function App() {
-  const { data: forecast, error: forecastErr } = useData("/data/economic_forecast.json");
-  const { data: stats, error: statsErr } = useData("/data/household_stats.json");
-  const { data: comparison, error: compErr } = useData("/data/household_comparison.json");
+function App() {
+  const [forecast, setForecast] = useState(null);
+  const [baseline, setBaseline] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [comparison, setComparison] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    Promise.all([
+      fetch("/data/economic_forecast.json").then((r) => r.json()),
+      fetch("/data/baseline_economic_assumptions.json").then((r) => r.json()),
+      fetch("/data/household_stats.json").then((r) => r.json()),
+      fetch("/data/household_comparison.json").then((r) => r.json()),
+    ])
+      .then(([forecastData, baselineData, statsData, compData]) => {
+        setForecast(forecastData);
+        setBaseline(baselineData);
+        setStats(statsData);
+        setComparison(compData);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
 
   const loading = !forecast || !stats || !comparison;
-  const error = forecastErr || statsErr || compErr;
 
   return (
-    <>
-      <Header />
-      <main className="dashboard">
-        {error && <p className="loading">Error loading data: {error.message}</p>}
+    <div className="app">
+      <main className="main-content">
+        <div className="title-row">
+          <h1>UK Spring Statement 2026</h1>
+        </div>
+
+        <p className="dashboard-intro">
+          PolicyEngine analysis of the OBR economic forecast revisions and their
+          impact on household incomes across the UK. Data sourced from the
+          Enhanced Family Resources Survey and PolicyEngine UK microsimulation
+          model.
+        </p>
+
+        {error && <p className="loading">Error loading data: {error}</p>}
         {loading && !error && <p className="loading">Loading data...</p>}
         {!loading && !error && (
-          <>
-            <EconomicForecast forecast={forecast} />
+          <div className="results-container">
+            <EconomicForecast forecast={forecast} baseline={baseline} />
             <FiscalOutlook />
             <HouseholdImpact stats={stats} comparison={comparison} />
-          </>
+
+            <footer className="footer">
+              <p>
+                Built by{" "}
+                <a
+                  href="https://policyengine.org"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  PolicyEngine
+                </a>{" "}
+                using the Enhanced Family Resources Survey and PolicyEngine UK
+                microsimulation model.
+              </p>
+            </footer>
+          </div>
         )}
       </main>
-      <Footer />
-    </>
+    </div>
   );
 }
+
+export default App;

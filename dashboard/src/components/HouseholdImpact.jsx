@@ -8,11 +8,11 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import Section from "./Section";
 import ForecastTable from "./ForecastTable";
 
-const PE_BLUE = "#2c6496";
-const PE_BLUE_LIGHT = "#8da0b5";
+const TEAL = "#0d9488";
+const TEAL_LIGHT = "#5eead4";
+const GRAY = "#9ca3af";
 
 function shorten(group) {
   return group
@@ -24,6 +24,10 @@ function shorten(group) {
     .replace("Pensioner couple", "Pensioner couple");
 }
 
+function formatCurrency(v) {
+  return `£${v.toLocaleString("en-GB", { maximumFractionDigits: 0 })}`;
+}
+
 function HnetBarChart({ data }) {
   const chartData = data.map((d) => ({
     group: shorten(d.group),
@@ -31,28 +35,47 @@ function HnetBarChart({ data }) {
   }));
 
   return (
-    <div className="chart-container">
-      <h3>Average household net income by family type (2029)</h3>
-      <ResponsiveContainer width="100%" height={320}>
-        <BarChart
-          data={chartData}
-          layout="vertical"
-          margin={{ top: 10, right: 30, left: 120, bottom: 0 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#dde3ea" />
-          <XAxis
-            type="number"
-            tickFormatter={(v) => `£${(v / 1000).toFixed(0)}k`}
-          />
-          <YAxis type="category" dataKey="group" width={110} />
-          <Tooltip
-            formatter={(v) =>
-              `£${v.toLocaleString("en-GB", { maximumFractionDigits: 0 })}`
-            }
-          />
-          <Bar dataKey="mean_hnet" name="Mean hnet" fill={PE_BLUE} barSize={24} />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="section-card">
+      <h2>Average household net income by family type</h2>
+      <p>Weighted mean household net income (2029 projection)</p>
+      <div className="chart-container">
+        <ResponsiveContainer width="100%" height={360}>
+          <BarChart
+            data={chartData}
+            layout="vertical"
+            margin={{ top: 10, right: 30, left: 130, bottom: 0 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <XAxis
+              type="number"
+              tickFormatter={(v) => `£${(v / 1000).toFixed(0)}k`}
+              tick={{ fontSize: 13 }}
+            />
+            <YAxis
+              type="category"
+              dataKey="group"
+              width={120}
+              tick={{ fontSize: 13 }}
+            />
+            <Tooltip
+              formatter={(v) => formatCurrency(v)}
+              contentStyle={{
+                background: "#fff",
+                border: "1px solid #e5e7eb",
+                borderRadius: 8,
+                fontSize: 13,
+              }}
+            />
+            <Bar
+              dataKey="mean_hnet"
+              name="Mean hnet"
+              fill={TEAL}
+              barSize={28}
+              animationDuration={500}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
@@ -65,26 +88,46 @@ function ComparisonChart({ data }) {
   }));
 
   return (
-    <div className="chart-container">
-      <h3>Baseline vs reformed household net income</h3>
-      <ResponsiveContainer width="100%" height={320}>
-        <BarChart
-          data={chartData}
-          margin={{ top: 10, right: 30, left: 10, bottom: 0 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#dde3ea" />
-          <XAxis dataKey="group" tick={{ fontSize: 12 }} />
-          <YAxis tickFormatter={(v) => `£${(v / 1000).toFixed(0)}k`} />
-          <Tooltip
-            formatter={(v) =>
-              `£${v.toLocaleString("en-GB", { maximumFractionDigits: 0 })}`
-            }
-          />
-          <Legend />
-          <Bar dataKey="baseline" name="Baseline" fill={PE_BLUE_LIGHT} />
-          <Bar dataKey="reformed" name="Reformed" fill={PE_BLUE} />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="section-card">
+      <h2>Baseline vs reformed household net income</h2>
+      <p>Comparison of average household net income under baseline and reformed forecasts</p>
+      <div className="chart-container">
+        <ResponsiveContainer width="100%" height={360}>
+          <BarChart
+            data={chartData}
+            margin={{ top: 10, right: 30, left: 10, bottom: 0 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <XAxis dataKey="group" tick={{ fontSize: 11 }} />
+            <YAxis
+              tickFormatter={(v) => `£${(v / 1000).toFixed(0)}k`}
+              tick={{ fontSize: 13 }}
+            />
+            <Tooltip
+              formatter={(v) => formatCurrency(v)}
+              contentStyle={{
+                background: "#fff",
+                border: "1px solid #e5e7eb",
+                borderRadius: 8,
+                fontSize: 13,
+              }}
+            />
+            <Legend wrapperStyle={{ fontSize: 13 }} />
+            <Bar
+              dataKey="baseline"
+              name="Baseline"
+              fill={GRAY}
+              animationDuration={500}
+            />
+            <Bar
+              dataKey="reformed"
+              name="Reformed"
+              fill={TEAL}
+              animationDuration={500}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
@@ -114,21 +157,33 @@ export default function HouseholdImpact({ stats, comparison }) {
   ]);
 
   return (
-    <Section title="What this means for households">
-      <p>
-        Using PolicyEngine's microsimulation model, we calculated average household
-        net income for six household groups under the baseline and updated forecasts.
-      </p>
+    <>
+      <div className="section-card" style={{ animationDelay: "0.35s" }}>
+        <h2>What this means for households</h2>
+        <p>
+          Using PolicyEngine's microsimulation model, we calculated average
+          household net income for six household groups under the baseline and
+          updated forecasts.
+        </p>
+      </div>
 
-      <HnetBarChart data={stats} />
+      <div className="hero-chart">
+        <HnetBarChart data={stats} />
+      </div>
 
-      <h3>Household net income statistics</h3>
-      <ForecastTable columns={statsColumns} rows={statsRows} format="gbp" />
+      <div className="section-card" style={{ animationDelay: "0.4s" }}>
+        <h3>Household net income statistics</h3>
+        <ForecastTable columns={statsColumns} rows={statsRows} format="gbp" />
+      </div>
 
-      <ComparisonChart data={comparison} />
+      <div className="hero-chart">
+        <ComparisonChart data={comparison} />
+      </div>
 
-      <h3>Change in net income from previous forecast</h3>
-      <ForecastTable columns={compColumns} rows={compRows} format="gbp" />
-    </Section>
+      <div className="section-card" style={{ animationDelay: "0.5s" }}>
+        <h3>Change in net income from previous forecast</h3>
+        <ForecastTable columns={compColumns} rows={compRows} format="gbp" />
+      </div>
+    </>
   );
 }

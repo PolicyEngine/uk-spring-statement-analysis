@@ -98,7 +98,7 @@ export default function HouseholdImpact({ stats, comparison }) {
     return [
       r.group,
       r.median_hnet,
-      Math.round(r.weighted_n).toLocaleString("en-GB"),
+      (r.weighted_n / 1_000_000).toFixed(2) + "m",
       comp.baseline_hnet,
       comp.reformed_hnet,
       comp.change,

@@ -95,6 +95,13 @@ export default function EconomicForecast({ forecast, baseline }) {
     r.change,
   ]);
 
+  const rpiRows = forecast.rpi_inflation.map((r) => [
+    r.year,
+    r.previous,
+    r.updated,
+    r.change,
+  ]);
+
   const columns = ["Year", "Previous forecast", "Updated forecast", "Change"];
 
   return (
@@ -131,6 +138,19 @@ export default function EconomicForecast({ forecast, baseline }) {
         <div className="section-card" style={{ margin: 0 }}>
           <h3>CPI inflation data</h3>
           <ForecastTable columns={columns} rows={inflationRows} />
+        </div>
+      </div>
+
+      <div className="charts-grid">
+        <ForecastLineChart
+          data={forecast.rpi_inflation}
+          title="RPI inflation"
+          description="OBR projected Retail Price Index year-on-year growth"
+          unit="%"
+        />
+        <div className="section-card" style={{ margin: 0 }}>
+          <h3>RPI inflation data</h3>
+          <ForecastTable columns={columns} rows={rpiRows} />
         </div>
       </div>
     </>

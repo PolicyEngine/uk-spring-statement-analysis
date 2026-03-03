@@ -2,17 +2,17 @@
 Generate data and charts for the Spring Statement 2026 blog post.
 
 This script:
-1. Defines household archetypes (working-age, with children, pensioners)
-2. Calculates household net income at various earnings levels for each archetype
-3. Compares baseline vs updated economic assumptions (earnings growth, inflation)
-4. Outputs markdown tables and saves charts for the blog post
+1. Loads the PE UK microsimulation (Enhanced FRS)
+2. Groups benefit units by family type and pensioner status
+3. Calculates weighted average and median household net income per group
+4. Compares baseline vs updated economic assumptions (earnings growth, inflation)
+5. Outputs markdown tables and saves charts for the blog post
 
 NOTE: The OBR economic determinants below are placeholders.
 Replace with actual values from the EFO tables once published.
 """
 
-from policyengine_uk import Simulation, Microsimulation
-import numpy as np
+from policyengine_uk import Microsimulation, Scenario
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
@@ -68,287 +68,98 @@ def build_economic_tables():
 
 
 # ---------------------------------------------------------------------------
-# 2. Household archetypes
+# 2. Household group definitions (using microsimulation data)
 # ---------------------------------------------------------------------------
 
-EARNINGS_RANGE = np.arange(0, 100_001, 5_000)  # £0 to £100k in £5k steps
-
-
-def make_situation(archetype: str, earnings: int) -> dict:
-    """Return a PolicyEngine situation dict for a given archetype and earnings."""
-    if archetype == "single_no_children":
-        return {
-            "people": {
-                "adult": {
-                    "age": {YEAR: 30},
-                    "employment_income": {YEAR: earnings},
-                },
-            },
-            "benunits": {
-                "benunit": {"members": ["adult"]},
-            },
-            "households": {
-                "household": {
-                    "members": ["adult"],
-                },
-            },
-        }
-
-    elif archetype == "couple_no_children":
-        return {
-            "people": {
-                "adult_1": {
-                    "age": {YEAR: 35},
-                    "employment_income": {YEAR: earnings},
-                },
-                "adult_2": {
-                    "age": {YEAR: 33},
-                    "employment_income": {YEAR: 0},
-                },
-            },
-            "benunits": {
-                "benunit": {"members": ["adult_1", "adult_2"]},
-            },
-            "households": {
-                "household": {
-                    "members": ["adult_1", "adult_2"],
-                },
-            },
-        }
-
-    elif archetype == "single_parent_2_children":
-        return {
-            "people": {
-                "parent": {
-                    "age": {YEAR: 30},
-                    "employment_income": {YEAR: earnings},
-                },
-                "child_1": {"age": {YEAR: 7}},
-                "child_2": {"age": {YEAR: 4}},
-            },
-            "benunits": {
-                "benunit": {
-                    "members": ["parent", "child_1", "child_2"],
-                },
-            },
-            "households": {
-                "household": {
-                    "members": ["parent", "child_1", "child_2"],
-                },
-            },
-        }
-
-    elif archetype == "couple_2_children":
-        return {
-            "people": {
-                "adult_1": {
-                    "age": {YEAR: 35},
-                    "employment_income": {YEAR: earnings},
-                },
-                "adult_2": {
-                    "age": {YEAR: 33},
-                    "employment_income": {YEAR: 0},
-                },
-                "child_1": {"age": {YEAR: 7}},
-                "child_2": {"age": {YEAR: 4}},
-            },
-            "benunits": {
-                "benunit": {
-                    "members": [
-                        "adult_1",
-                        "adult_2",
-                        "child_1",
-                        "child_2",
-                    ],
-                },
-            },
-            "households": {
-                "household": {
-                    "members": [
-                        "adult_1",
-                        "adult_2",
-                        "child_1",
-                        "child_2",
-                    ],
-                },
-            },
-        }
-
-    elif archetype == "single_pensioner":
-        return {
-            "people": {
-                "pensioner": {
-                    "age": {YEAR: 70},
-                    "state_pension": {YEAR: 11_500},
-                },
-            },
-            "benunits": {
-                "benunit": {"members": ["pensioner"]},
-            },
-            "households": {
-                "household": {
-                    "members": ["pensioner"],
-                },
-            },
-        }
-
-    elif archetype == "pensioner_couple":
-        return {
-            "people": {
-                "pensioner_1": {
-                    "age": {YEAR: 70},
-                    "state_pension": {YEAR: 11_500},
-                },
-                "pensioner_2": {
-                    "age": {YEAR: 68},
-                    "state_pension": {YEAR: 8_000},
-                },
-            },
-            "benunits": {
-                "benunit": {
-                    "members": ["pensioner_1", "pensioner_2"],
-                },
-            },
-            "households": {
-                "household": {
-                    "members": ["pensioner_1", "pensioner_2"],
-                },
-            },
-        }
-
-    raise ValueError(f"Unknown archetype: {archetype}")
-
-
-ARCHETYPES = {
-    "Single adult, no children": "single_no_children",
-    "Couple, no children": "couple_no_children",
-    "Single parent, 2 children": "single_parent_2_children",
-    "Couple, 2 children": "couple_2_children",
-    "Single pensioner": "single_pensioner",
-    "Pensioner couple": "pensioner_couple",
+GROUPS = {
+    "Single adult, no children": lambda ft, pen: (ft == "SINGLE") & (pen == 0),
+    "Couple, no children": lambda ft, pen: (ft == "COUPLE_NO_CHILDREN") & (pen == 0),
+    "Single parent": lambda ft, pen: ft == "LONE_PARENT",
+    "Couple with children": lambda ft, pen: ft == "COUPLE_WITH_CHILDREN",
+    "Single pensioner": lambda ft, pen: (ft == "SINGLE") & (pen == 1),
+    "Pensioner couple": lambda ft, pen: (ft == "COUPLE_NO_CHILDREN") & (pen == 1),
 }
 
 
-# ---------------------------------------------------------------------------
-# 3. Calculate household net income across the earnings distribution
-# ---------------------------------------------------------------------------
+def load_sim(scenario=None):
+    """Load a Microsimulation, optionally with a reform scenario."""
+    if scenario is not None:
+        return Microsimulation(scenario=scenario)
+    return Microsimulation()
 
 
-def calculate_hnet_by_earnings(archetype_key: str) -> pd.DataFrame:
-    """Calculate household net income at each earnings level for an archetype."""
-    results = []
-    for earnings in EARNINGS_RANGE:
-        situation = make_situation(archetype_key, int(earnings))
-        sim = Simulation(situation=situation)
-        hnet = sim.calculate("household_net_income", YEAR)[0]
-        results.append({"earnings": earnings, "household_net_income": hnet})
-    return pd.DataFrame(results)
-
-
-def generate_hnet_charts():
-    """Generate line charts of hnet vs earnings for each archetype group."""
-
-    # Group 1: working-age without children
-    fig, ax = plt.subplots(figsize=(10, 6))
-    for label, key in [
-        ("Single adult, no children", "single_no_children"),
-        ("Couple, no children", "couple_no_children"),
-    ]:
-        df = calculate_hnet_by_earnings(key)
-        ax.plot(
-            df["earnings"] / 1_000,
-            df["household_net_income"] / 1_000,
-            label=label,
-        )
-    ax.set_xlabel("Employment income (£k)")
-    ax.set_ylabel("Household net income (£k)")
-    ax.set_title("Working-age adults without children (2029)")
-    ax.legend()
-    ax.grid(True, alpha=0.3)
-    fig.tight_layout()
-    fig.savefig(OUTPUT_DIR / "hnet_no_children.png", dpi=150)
-    plt.close(fig)
-
-    # Group 2: working-age with children
-    fig, ax = plt.subplots(figsize=(10, 6))
-    for label, key in [
-        ("Single parent, 2 children", "single_parent_2_children"),
-        ("Couple, 2 children", "couple_2_children"),
-    ]:
-        df = calculate_hnet_by_earnings(key)
-        ax.plot(
-            df["earnings"] / 1_000,
-            df["household_net_income"] / 1_000,
-            label=label,
-        )
-    ax.set_xlabel("Employment income (£k)")
-    ax.set_ylabel("Household net income (£k)")
-    ax.set_title("Working-age adults with children (2029)")
-    ax.legend()
-    ax.grid(True, alpha=0.3)
-    fig.tight_layout()
-    fig.savefig(OUTPUT_DIR / "hnet_with_children.png", dpi=150)
-    plt.close(fig)
-
-    # Group 3: pensioners (single chart, no earnings sweep — just bar chart)
-    fig, ax = plt.subplots(figsize=(8, 5))
-    pensioner_hnet = {}
-    for label, key in [
-        ("Single pensioner", "single_pensioner"),
-        ("Pensioner couple", "pensioner_couple"),
-    ]:
-        situation = make_situation(key, 0)
-        sim = Simulation(situation=situation)
-        hnet = sim.calculate("household_net_income", YEAR)[0]
-        pensioner_hnet[label] = hnet
-
-    ax.bar(pensioner_hnet.keys(), [v / 1_000 for v in pensioner_hnet.values()])
-    ax.set_ylabel("Household net income (£k)")
-    ax.set_title("Pensioner household net income (2029)")
-    ax.grid(True, alpha=0.3, axis="y")
-    fig.tight_layout()
-    fig.savefig(OUTPUT_DIR / "hnet_pensioners.png", dpi=150)
-    plt.close(fig)
+def classify_benunits(sim):
+    """Return family_type and is_pensioner_benunit MicroSeries at benunit level."""
+    family_type = sim.calculate("family_type", YEAR)
+    is_sp_age = sim.calculate("is_SP_age", YEAR, map_to="benunit")
+    benunit_adults = sim.calculate("benunit_count_adults", YEAR)
+    is_pensioner_bu = (is_sp_age >= benunit_adults).astype(float)
+    return family_type, is_pensioner_bu
 
 
 # ---------------------------------------------------------------------------
-# 4. Summary table: hnet at median earnings for each archetype
+# 3. Calculate average household net income by group
 # ---------------------------------------------------------------------------
 
-def get_median_earnings() -> float:
-    """Compute weighted median employment income for working-age adults
-    with positive earnings from the PE UK microsimulation data."""
-    sim = Microsimulation()
-    income = sim.calculate("employment_income", YEAR)
-    age = sim.calculate("age", YEAR)
 
-    mask = (age >= 18) & (age < 66) & (income > 0)
-    return float(income[mask].median())
+def compute_group_stats(sim):
+    """Return a DataFrame with weighted mean and median hnet per group."""
+    family_type, is_pensioner_bu = classify_benunits(sim)
+    hnet = sim.calculate("household_net_income", YEAR, map_to="benunit")
 
-
-def generate_summary_table() -> str:
-    """Generate the markdown summary table of hnet by household type."""
-    median_earnings = get_median_earnings()
-    print(f"  Using median earnings: £{median_earnings:,.0f}")
     rows = []
-    for label, key in ARCHETYPES.items():
-        if "pensioner" in key:
-            earnings = 0
+    for label, mask_fn in GROUPS.items():
+        mask = mask_fn(family_type, is_pensioner_bu)
+        mean_hnet = float(hnet[mask].mean())
+        median_hnet = float(hnet[mask].median())
+        count = float(mask.sum())
+        rows.append({
+            "group": label,
+            "mean_hnet": mean_hnet,
+            "median_hnet": median_hnet,
+            "weighted_n": count,
+        })
+    return pd.DataFrame(rows)
+
+
+def generate_hnet_chart(baseline_stats):
+    """Generate a bar chart of average hnet by household group."""
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.barh(
+        baseline_stats["group"],
+        baseline_stats["mean_hnet"] / 1_000,
+    )
+    ax.set_xlabel("Average household net income (£k)")
+    ax.set_title(f"Average household net income by family type ({YEAR})")
+    ax.grid(True, alpha=0.3, axis="x")
+    ax.invert_yaxis()
+    fig.tight_layout()
+    fig.savefig(OUTPUT_DIR / "hnet_by_group.png", dpi=150)
+    plt.close(fig)
+
+
+# ---------------------------------------------------------------------------
+# 4. Summary table: compare baseline vs reform
+# ---------------------------------------------------------------------------
+
+
+def generate_summary_table(baseline_stats, reformed_stats=None) -> str:
+    """Generate the markdown summary table of average hnet by household group."""
+    rows = []
+    for _, row in baseline_stats.iterrows():
+        label = row["group"]
+        prev = row["mean_hnet"]
+
+        if reformed_stats is not None:
+            updated = reformed_stats.loc[
+                reformed_stats["group"] == label, "mean_hnet"
+            ].iloc[0]
         else:
-            earnings = median_earnings
+            updated = prev  # placeholder until we have the reform
 
-        situation = make_situation(key, earnings)
-        sim = Simulation(situation=situation)
-        hnet = sim.calculate("household_net_income", YEAR)[0]
-
-        # TODO: once we have the updated forecast, run a second simulation
-        # with updated economic assumptions and compute the change.
-        prev_hnet = hnet  # placeholder — same as current until we have reform
-        updated_hnet = hnet  # placeholder
-        change = updated_hnet - prev_hnet
-
+        change = updated - prev
         rows.append(
-            f"| {label} | £{prev_hnet:,.0f} | £{updated_hnet:,.0f} | £{change:+,.0f} |"
+            f"| {label} | £{prev:,.0f} | £{updated:,.0f} | £{change:+,.0f} |"
         )
 
     header = "| Household type | Previous 2029 hnet | Updated 2029 hnet | Change |"
@@ -365,11 +176,22 @@ def main():
     print("Generating economic forecast tables...")
     earnings_table, inflation_table = build_economic_tables()
 
-    print("Generating household net income charts...")
-    generate_hnet_charts()
+    print("Loading baseline microsimulation...")
+    baseline = load_sim()
+    baseline_stats = compute_group_stats(baseline)
+    print(baseline_stats.to_string(index=False))
+
+    # TODO: once we have the Spring Statement reform, load a reformed sim:
+    # scenario = Scenario(parameter_changes={...})
+    # reformed = load_sim(scenario=scenario)
+    # reformed_stats = compute_group_stats(reformed)
+    reformed_stats = None
+
+    print("Generating chart...")
+    generate_hnet_chart(baseline_stats)
 
     print("Generating summary table...")
-    summary_table = generate_summary_table()
+    summary_table = generate_summary_table(baseline_stats, reformed_stats)
 
     # Read the template markdown
     md_path = Path(__file__).parent / "spring-statement-2026-blog.md"
@@ -399,28 +221,10 @@ def main():
         inflation_table,
     )
 
-    # Inject chart references
+    # Inject chart reference
     md = md.replace(
         "[Line charts showing projected household net income across the earnings distribution for different household types.]",
-        "",
-    )
-    md = md.replace(
-        "[Brief description of the impact on this group.]\n\n"
-        "#### Working-age adults with children",
-        "![Working-age adults without children](output/hnet_no_children.png)\n\n"
-        "#### Working-age adults with children",
-    )
-    md = md.replace(
-        "[Brief description of the impact on this group.]\n\n"
-        "#### Pensioners",
-        "![Working-age adults with children](output/hnet_with_children.png)\n\n"
-        "#### Pensioners",
-    )
-    md = md.replace(
-        "[Brief description of the impact on this group.]\n\n"
-        "### Change in net income from previous forecast",
-        "![Pensioner households](output/hnet_pensioners.png)\n\n"
-        "### Change in net income from previous forecast",
+        "![Average household net income by family type](output/hnet_by_group.png)",
     )
 
     # Inject summary table

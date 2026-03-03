@@ -6,7 +6,7 @@ The Chancellor delivered the Spring Statement 2026 today. Here we break down the
 
 ### Earnings growth
 
-[OBR's updated earnings growth projections. How do they compare to the previous forecast? Table comparing old vs new forecasts by year.]
+[OBR's updated earnings growth projections. How do they compare to the previous forecast?]
 
 | Year | Previous forecast | Updated forecast | Change |
 |------|-------------------|------------------|--------|
@@ -36,23 +36,11 @@ The Chancellor delivered the Spring Statement 2026 today. Here we break down the
 
 ## What this means for households
 
-The changes in the economic forecast have direct implications for household living standards. We modelled the impact on household net income across different family types.
+The changes in the economic forecast have direct implications for household living standards. Using PolicyEngine's microsimulation model and the Enhanced Family Resources Survey, we calculated the weighted average household net income for six household groups under the baseline and updated forecasts.
 
-### Household net income by family type (2029 projection)
+### Average household net income by family type (2029 projection)
 
 [Line charts showing projected household net income across the earnings distribution for different household types.]
-
-#### Working-age adults without children
-
-[Brief description of the impact on this group.]
-
-#### Working-age adults with children
-
-[Brief description of the impact on this group.]
-
-#### Pensioners
-
-[Brief description of the impact on this group.]
 
 ### Change in net income from previous forecast
 

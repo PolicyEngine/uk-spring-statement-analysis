@@ -1,7 +1,15 @@
+import { useState } from "react";
 import ForecastTable from "./ForecastTable";
 
-export default function HouseholdImpact({ stats, comparison }) {
-  if (!stats || !comparison) return null;
+const YEARS = ["2026", "2027", "2028", "2029"];
+
+export default function HouseholdImpact({ allStats, allComparison }) {
+  const [selectedYear, setSelectedYear] = useState("2029");
+
+  if (!allStats || !allComparison) return null;
+
+  const stats = allStats[selectedYear] || [];
+  const comparison = allComparison[selectedYear] || [];
 
   const mergedColumns = [
     "Household type",
@@ -35,7 +43,20 @@ export default function HouseholdImpact({ stats, comparison }) {
       </div>
 
       <div className="section-card" style={{ animationDelay: "0.4s" }}>
-        <h3>Household income summary</h3>
+        <div className="card-header-row">
+          <h3>Household income summary</h3>
+          <div className="view-toggle">
+            {YEARS.map((yr) => (
+              <button
+                key={yr}
+                className={selectedYear === yr ? "active" : ""}
+                onClick={() => setSelectedYear(yr)}
+              >
+                {yr}
+              </button>
+            ))}
+          </div>
+        </div>
         <ForecastTable columns={mergedColumns} rows={mergedRows} format="gbp" />
       </div>
     </>

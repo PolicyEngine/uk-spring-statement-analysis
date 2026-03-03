@@ -1,38 +1,154 @@
-[
-  {
-    "group": "Single adult, no children",
-    "mean_hnet": 29438,
-    "median_hnet": 24214,
-    "weighted_n": 8135470
-  },
-  {
-    "group": "Couple, no children",
-    "mean_hnet": 64188,
-    "median_hnet": 54440,
-    "weighted_n": 10806929
-  },
-  {
-    "group": "Single parent",
-    "mean_hnet": 39886,
-    "median_hnet": 36912,
-    "weighted_n": 2516884
-  },
-  {
-    "group": "Couple with children",
-    "mean_hnet": 74966,
-    "median_hnet": 63037,
-    "weighted_n": 6611670
-  },
-  {
-    "group": "Single pensioner",
-    "mean_hnet": 27033,
-    "median_hnet": 23111,
-    "weighted_n": 4061703
-  },
-  {
-    "group": "Pensioner couple",
-    "mean_hnet": 54118,
-    "median_hnet": 49196,
-    "weighted_n": 3383456
-  }
-]
+{
+  "2026": [
+    {
+      "group": "Single adult, no children",
+      "mean_hnet": 27965,
+      "median_hnet": 23105,
+      "weighted_n": 8037821
+    },
+    {
+      "group": "Couple, no children",
+      "mean_hnet": 61091,
+      "median_hnet": 51739,
+      "weighted_n": 10677215
+    },
+    {
+      "group": "Single parent",
+      "mean_hnet": 38107,
+      "median_hnet": 35427,
+      "weighted_n": 2486674
+    },
+    {
+      "group": "Couple with children",
+      "mean_hnet": 71638,
+      "median_hnet": 60256,
+      "weighted_n": 6532310
+    },
+    {
+      "group": "Single pensioner",
+      "mean_hnet": 25808,
+      "median_hnet": 22320,
+      "weighted_n": 4012951
+    },
+    {
+      "group": "Pensioner couple",
+      "mean_hnet": 51635,
+      "median_hnet": 47153,
+      "weighted_n": 3342845
+    }
+  ],
+  "2027": [
+    {
+      "group": "Single adult, no children",
+      "mean_hnet": 28410,
+      "median_hnet": 23511,
+      "weighted_n": 8067561
+    },
+    {
+      "group": "Couple, no children",
+      "mean_hnet": 62093,
+      "median_hnet": 52550,
+      "weighted_n": 10716721
+    },
+    {
+      "group": "Single parent",
+      "mean_hnet": 38667,
+      "median_hnet": 35892,
+      "weighted_n": 2495875
+    },
+    {
+      "group": "Couple with children",
+      "mean_hnet": 72706,
+      "median_hnet": 61139,
+      "weighted_n": 6556480
+    },
+    {
+      "group": "Single pensioner",
+      "mean_hnet": 26242,
+      "median_hnet": 22601,
+      "weighted_n": 4027799
+    },
+    {
+      "group": "Pensioner couple",
+      "mean_hnet": 52510,
+      "median_hnet": 47898,
+      "weighted_n": 3355214
+    }
+  ],
+  "2028": [
+    {
+      "group": "Single adult, no children",
+      "mean_hnet": 28937,
+      "median_hnet": 23938,
+      "weighted_n": 8099831
+    },
+    {
+      "group": "Couple, no children",
+      "mean_hnet": 63183,
+      "median_hnet": 53596,
+      "weighted_n": 10759587
+    },
+    {
+      "group": "Single parent",
+      "mean_hnet": 39273,
+      "median_hnet": 36427,
+      "weighted_n": 2505858
+    },
+    {
+      "group": "Couple with children",
+      "mean_hnet": 73842,
+      "median_hnet": 62011,
+      "weighted_n": 6582706
+    },
+    {
+      "group": "Single pensioner",
+      "mean_hnet": 26635,
+      "median_hnet": 22867,
+      "weighted_n": 4043910
+    },
+    {
+      "group": "Pensioner couple",
+      "mean_hnet": 53324,
+      "median_hnet": 48626,
+      "weighted_n": 3368634
+    }
+  ],
+  "2029": [
+    {
+      "group": "Single adult, no children",
+      "mean_hnet": 29438,
+      "median_hnet": 24214,
+      "weighted_n": 8135470
+    },
+    {
+      "group": "Couple, no children",
+      "mean_hnet": 64188,
+      "median_hnet": 54440,
+      "weighted_n": 10806929
+    },
+    {
+      "group": "Single parent",
+      "mean_hnet": 39886,
+      "median_hnet": 36912,
+      "weighted_n": 2516884
+    },
+    {
+      "group": "Couple with children",
+      "mean_hnet": 74966,
+      "median_hnet": 63037,
+      "weighted_n": 6611670
+    },
+    {
+      "group": "Single pensioner",
+      "mean_hnet": 27033,
+      "median_hnet": 23111,
+      "weighted_n": 4061703
+    },
+    {
+      "group": "Pensioner couple",
+      "mean_hnet": 54118,
+      "median_hnet": 49196,
+      "weighted_n": 3383456
+    }
+  ]
+}

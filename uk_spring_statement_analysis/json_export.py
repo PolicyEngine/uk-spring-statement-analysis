@@ -106,56 +106,73 @@ def export_economic_forecast():
     print(f"  Written {out}")
 
 
-def export_household_data(baseline_stats, reformed_stats=None):
-    """Write household_stats.json and household_comparison.json."""
+def export_household_data(all_baseline_stats, all_reformed_stats=None):
+    """Write year-keyed household_stats.json and household_comparison.json.
+
+    Parameters
+    ----------
+    all_baseline_stats : dict[int, DataFrame]
+        Mapping from year to baseline stats DataFrame.
+    all_reformed_stats : dict[int, DataFrame] or None
+        Mapping from year to reformed stats DataFrame.
+    """
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    # household_stats.json
-    stats = []
-    for _, row in baseline_stats.iterrows():
-        label = row["group"]
-        # Use reformed (post-Statement) median when available
-        if reformed_stats is not None:
-            median_val = float(
-                reformed_stats.loc[
-                    reformed_stats["group"] == label, "median_hnet"
-                ].iloc[0]
-            )
-        else:
-            median_val = float(row["median_hnet"])
-        stats.append({
-            "group": label,
-            "mean_hnet": round(float(row["mean_hnet"])),
-            "median_hnet": round(median_val),
-            "weighted_n": round(float(row["weighted_n"])),
-        })
+    all_stats = {}
+    all_comparison = {}
+
+    for year, baseline_stats in all_baseline_stats.items():
+        reformed_stats = (
+            all_reformed_stats[year] if all_reformed_stats else None
+        )
+
+        # Stats for this year
+        stats = []
+        for _, row in baseline_stats.iterrows():
+            label = row["group"]
+            if reformed_stats is not None:
+                median_val = float(
+                    reformed_stats.loc[
+                        reformed_stats["group"] == label, "median_hnet"
+                    ].iloc[0]
+                )
+            else:
+                median_val = float(row["median_hnet"])
+            stats.append({
+                "group": label,
+                "mean_hnet": round(float(row["mean_hnet"])),
+                "median_hnet": round(median_val),
+                "weighted_n": round(float(row["weighted_n"])),
+            })
+        all_stats[str(year)] = stats
+
+        # Comparison for this year
+        comparison = []
+        for _, row in baseline_stats.iterrows():
+            label = row["group"]
+            baseline_hnet = round(float(row["mean_hnet"]))
+
+            if reformed_stats is not None:
+                reformed_hnet = round(float(
+                    reformed_stats.loc[
+                        reformed_stats["group"] == label, "mean_hnet"
+                    ].iloc[0]
+                ))
+            else:
+                reformed_hnet = baseline_hnet
+
+            comparison.append({
+                "group": label,
+                "baseline_hnet": baseline_hnet,
+                "reformed_hnet": reformed_hnet,
+                "change": reformed_hnet - baseline_hnet,
+            })
+        all_comparison[str(year)] = comparison
 
     out = DATA_DIR / "household_stats.json"
-    out.write_text(json.dumps(stats, indent=2))
+    out.write_text(json.dumps(all_stats, indent=2))
     print(f"  Written {out}")
 
-    # household_comparison.json
-    comparison = []
-    for _, row in baseline_stats.iterrows():
-        label = row["group"]
-        baseline_hnet = round(float(row["mean_hnet"]))
-
-        if reformed_stats is not None:
-            reformed_hnet = round(float(
-                reformed_stats.loc[
-                    reformed_stats["group"] == label, "mean_hnet"
-                ].iloc[0]
-            ))
-        else:
-            reformed_hnet = baseline_hnet
-
-        comparison.append({
-            "group": label,
-            "baseline_hnet": baseline_hnet,
-            "reformed_hnet": reformed_hnet,
-            "change": reformed_hnet - baseline_hnet,
-        })
-
     out = DATA_DIR / "household_comparison.json"
-    out.write_text(json.dumps(comparison, indent=2))
+    out.write_text(json.dumps(all_comparison, indent=2))
     print(f"  Written {out}")

@@ -54,7 +54,7 @@ function App() {
         {!loading && !error && (
           <div className="results-container">
             <EconomicForecast forecast={forecast} baseline={baseline} />
-            <HouseholdImpact stats={stats} comparison={comparison} />
+            <HouseholdImpact allStats={stats} allComparison={comparison} />
           </div>
         )}
       </main>

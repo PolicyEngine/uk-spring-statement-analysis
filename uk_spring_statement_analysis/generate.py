@@ -59,9 +59,6 @@ def main():
 
     print("Loading baseline microsimulation...")
     baseline = load_sim()
-    baseline_stats = compute_group_stats(baseline)
-    print("Baseline stats:")
-    print(baseline_stats.to_string(index=False))
 
     # Create a Scenario with applied_before_data_load=True so the
     # parameter changes feed into uprating (not just the formula graph).
@@ -71,8 +68,22 @@ def main():
         applied_before_data_load=True,
     )
     reformed = load_sim(scenario=scenario)
-    reformed_stats = compute_group_stats(reformed)
-    print("Reformed stats:")
+
+    # Compute stats for all forecast years (reuse same sim objects)
+    forecast_years = [2026, 2027, 2028, 2029]
+    all_baseline_stats = {}
+    all_reformed_stats = {}
+    for yr in forecast_years:
+        print(f"Computing stats for {yr}...")
+        all_baseline_stats[yr] = compute_group_stats(baseline, year=yr)
+        all_reformed_stats[yr] = compute_group_stats(reformed, year=yr)
+
+    # Use 2029 for the blog post tables (backwards-compatible)
+    baseline_stats = all_baseline_stats[2029]
+    reformed_stats = all_reformed_stats[2029]
+    print("Baseline stats (2029):")
+    print(baseline_stats.to_string(index=False))
+    print("Reformed stats (2029):")
     print(reformed_stats.to_string(index=False))
 
     print("Generating chart...")
@@ -84,7 +95,7 @@ def main():
     # Export JSON for the React dashboard
     print("Exporting JSON for dashboard...")
     export_economic_forecast()
-    export_household_data(baseline_stats, reformed_stats)
+    export_household_data(all_baseline_stats, all_reformed_stats)
 
     # Read the template markdown
     md_path = Path(__file__).parents[1] / "spring-statement-2026-blog.md"

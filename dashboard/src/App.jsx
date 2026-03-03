@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import EconomicForecast from "./components/EconomicForecast";
-import FiscalOutlook from "./components/FiscalOutlook";
 import HouseholdImpact from "./components/HouseholdImpact";
 import "./App.css";
 
@@ -55,7 +54,6 @@ function App() {
         {!loading && !error && (
           <div className="results-container">
             <EconomicForecast forecast={forecast} baseline={baseline} />
-            <FiscalOutlook />
             <HouseholdImpact stats={stats} comparison={comparison} />
 
             <footer className="footer">

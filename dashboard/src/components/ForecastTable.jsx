@@ -27,7 +27,7 @@ function formatGbp(value) {
 
 function formatGbpChange(value) {
   if (value == null) return "—";
-  const sign = value > 0 ? "+" : "";
+  const sign = value > 0 ? "+" : value < 0 ? "-" : "";
   const cls =
     value > 0
       ? "change-positive"

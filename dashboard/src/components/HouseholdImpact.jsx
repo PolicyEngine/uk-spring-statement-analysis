@@ -87,18 +87,16 @@ export default function HouseholdImpact({ stats, comparison }) {
 
   const mergedColumns = [
     "Household type",
-    "Mean income",
     "Median income",
     "Population",
-    "Pre-Spring Statement",
-    "Spring Statement",
-    "Change",
+    "Mean income (pre)",
+    "Mean income (post)",
+    "Change in mean income",
   ];
   const mergedRows = stats.map((r) => {
     const comp = comparison.find((c) => c.group === r.group) || {};
     return [
       r.group,
-      r.mean_hnet,
       r.median_hnet,
       Math.round(r.weighted_n).toLocaleString("en-GB"),
       comp.baseline_hnet,

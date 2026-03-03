@@ -33,7 +33,7 @@ function App() {
     <div className="app">
       <main className="main-content">
         <div className="title-row">
-          <h1>UK Spring Statement 2026</h1>
+          <h1>Spring Statement 2026: OBR forecast revisions and household impact</h1>
         </div>
 
         <p className="dashboard-intro">

@@ -9,15 +9,21 @@ YEAR = 2029  # Forecast year of interest
 
 # OBR economic forecast assumptions (PLACEHOLDER — update on the day)
 
-# Previous forecast (Autumn Statement 2025)
-PREV_EARNINGS_GROWTH = {2026: 3.5, 2027: 3.0, 2028: 2.8, 2029: 2.5}
-PREV_CPI_INFLATION = {2026: 2.6, 2027: 2.2, 2028: 2.0, 2029: 2.0}
+# Previous forecast (Autumn Statement 2025 / OBR EFO November 2025)
+PREV_EARNINGS_GROWTH = {2026: 3.3, 2027: 2.3, 2028: 2.1, 2029: 2.2}
+PREV_CPI_INFLATION = {2026: 2.5, 2027: 2.0, 2028: 2.0, 2029: 2.0}
 PREV_RPI_INFLATION = {2026: 3.7, 2027: 3.1, 2028: 2.9, 2029: 2.9}
+PREV_HOUSE_PRICES = {2026: 2.2, 2027: 2.8, 2028: 2.7, 2029: 2.6}
+PREV_PER_CAPITA_GDP = {2026: 3.3, 2027: 3.3, 2028: 3.0, 2029: 2.9}
+PREV_SOCIAL_RENT = {2026: 4.5, 2027: 3.5, 2028: 3.0, 2029: 3.0}
 
 # Updated forecast (Spring Statement 2026) — from OBR EFO March 2026, Table A.1
 UPDATED_EARNINGS_GROWTH = {2026: 3.4, 2027: 2.4, 2028: 2.1, 2029: 2.2}
 UPDATED_CPI_INFLATION = {2026: 2.3, 2027: 2.0, 2028: 2.0, 2029: 2.0}
 UPDATED_RPI_INFLATION = {2026: 3.1, 2027: 3.0, 2028: 2.8, 2029: 2.9}
+UPDATED_HOUSE_PRICES = {2026: 2.4, 2027: 2.9, 2028: 2.7, 2029: 2.6}
+UPDATED_PER_CAPITA_GDP = {2026: 2.9, 2027: 3.2, 2028: 3.1, 2029: 3.0}
+UPDATED_SOCIAL_RENT = {2026: 4.4, 2027: 3.3, 2028: 3.0, 2029: 3.0}
 
 # Household group definitions
 GROUPS = {

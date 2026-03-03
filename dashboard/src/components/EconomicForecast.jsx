@@ -102,6 +102,27 @@ export default function EconomicForecast({ forecast, baseline }) {
     r.change,
   ]);
 
+  const housePricesRows = (forecast.house_prices || []).map((r) => [
+    r.year,
+    r.previous,
+    r.updated,
+    r.change,
+  ]);
+
+  const perCapitaGdpRows = (forecast.per_capita_gdp || []).map((r) => [
+    r.year,
+    r.previous,
+    r.updated,
+    r.change,
+  ]);
+
+  const socialRentRows = (forecast.social_rent || []).map((r) => [
+    r.year,
+    r.previous,
+    r.updated,
+    r.change,
+  ]);
+
   const columns = ["Year", "Previous forecast", "Updated forecast", "Change"];
 
   return (
@@ -148,6 +169,42 @@ export default function EconomicForecast({ forecast, baseline }) {
         <div className="section-card" style={{ margin: 0 }}>
           <h3>RPI inflation data</h3>
           <ForecastTable columns={columns} rows={rpiRows} />
+        </div>
+      </div>
+
+      <div className="charts-grid charts-grid-3">
+        <ForecastLineChart
+          data={forecast.house_prices || []}
+          title="House prices"
+          description="OBR projected house prices year-on-year growth"
+          unit="%"
+        />
+        <ForecastLineChart
+          data={forecast.per_capita_gdp || []}
+          title="Per capita GDP"
+          description="OBR projected nominal per capita GDP year-on-year growth"
+          unit="%"
+        />
+        <ForecastLineChart
+          data={forecast.social_rent || []}
+          title="Social rent"
+          description="OBR projected social rent year-on-year growth (CPI+1%, lagged)"
+          unit="%"
+        />
+      </div>
+
+      <div className="charts-grid charts-grid-3">
+        <div className="section-card" style={{ margin: 0 }}>
+          <h3>House prices data</h3>
+          <ForecastTable columns={columns} rows={housePricesRows} />
+        </div>
+        <div className="section-card" style={{ margin: 0 }}>
+          <h3>Per capita GDP data</h3>
+          <ForecastTable columns={columns} rows={perCapitaGdpRows} />
+        </div>
+        <div className="section-card" style={{ margin: 0 }}>
+          <h3>Social rent data</h3>
+          <ForecastTable columns={columns} rows={socialRentRows} />
         </div>
       </div>
     </>

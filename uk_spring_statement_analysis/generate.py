@@ -30,6 +30,24 @@ SPRING_STATEMENT_PARAMS = {
         "2028-01-01": 0.028,
         "2029-01-01": 0.029,
     },
+    "gov.economic_assumptions.yoy_growth.obr.house_prices": {
+        "2026-01-01": 0.024,
+        "2027-01-01": 0.029,
+        "2028-01-01": 0.027,
+        "2029-01-01": 0.026,
+    },
+    "gov.economic_assumptions.yoy_growth.obr.per_capita.gdp": {
+        "2026-01-01": 0.0292,
+        "2027-01-01": 0.0323,
+        "2028-01-01": 0.0310,
+        "2029-01-01": 0.0296,
+    },
+    "gov.economic_assumptions.yoy_growth.obr.social_rent": {
+        "2026-01-01": 0.044,
+        "2027-01-01": 0.033,
+        "2028-01-01": 0.030,
+        "2029-01-01": 0.030,
+    },
 }
 
 

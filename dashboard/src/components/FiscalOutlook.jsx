@@ -5,8 +5,8 @@ export default function FiscalOutlook() {
       <p>
         The Spring Statement includes updates to the government's fiscal
         projections, covering borrowing, debt, and fiscal headroom. This section
-        will be updated with specific figures once the OBR publishes its Economic
-        and Fiscal Outlook.
+        will be updated with specific fiscal figures from the OBR Economic and
+        Fiscal Outlook, March 2026.
       </p>
       <p>
         Key areas to watch include changes to public sector net borrowing, the

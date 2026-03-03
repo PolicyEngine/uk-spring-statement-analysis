@@ -18,7 +18,7 @@ function shorten(group) {
   return group
     .replace("Single adult, no children", "Single adult")
     .replace("Couple, no children", "Couple")
-    .replace("Couple with children", "Couple + kids")
+    .replace("Couple with children", "Couple + children")
     .replace("Single parent", "Single parent")
     .replace("Single pensioner", "Single pensioner")
     .replace("Pensioner couple", "Pensioner couple");
@@ -70,7 +70,7 @@ function HnetBarChart({ data }) {
             />
             <Bar
               dataKey="mean_hnet"
-              name="Mean hnet"
+              name="Mean household net income"
               fill={TEAL}
               barSize={28}
               animationDuration={500}
@@ -87,10 +87,10 @@ export default function HouseholdImpact({ stats, comparison }) {
 
   const mergedColumns = [
     "Household type",
-    "Median income (pre)",
+    "Median income (pre-Statement)",
     "Population",
-    "Mean income (pre)",
-    "Mean income (post)",
+    "Mean income (pre-Statement)",
+    "Mean income (post-Statement)",
     "Change in mean income",
   ];
   const mergedRows = stats.map((r) => {

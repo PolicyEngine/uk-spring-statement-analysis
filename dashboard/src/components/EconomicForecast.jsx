@@ -187,7 +187,7 @@ export default function EconomicForecast({ forecast, baseline }) {
         <ForecastLineChart
           data={forecast.social_rent || []}
           title="Social rent"
-          description="OBR projected social rent year-on-year growth (CPI+1%, lagged)"
+          description="OBR projected social rent year-on-year growth"
           unit="%"
         />
       </div>

@@ -87,7 +87,7 @@ export default function HouseholdImpact({ stats, comparison }) {
 
   const mergedColumns = [
     "Household type",
-    "Median income",
+    "Median income (pre)",
     "Population",
     "Mean income (pre)",
     "Mean income (post)",

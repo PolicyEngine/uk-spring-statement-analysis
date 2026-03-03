@@ -55,21 +55,6 @@ function App() {
           <div className="results-container">
             <EconomicForecast forecast={forecast} baseline={baseline} />
             <HouseholdImpact stats={stats} comparison={comparison} />
-
-            <footer className="footer">
-              <p>
-                Built by{" "}
-                <a
-                  href="https://policyengine.org"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  PolicyEngine
-                </a>{" "}
-                using the Enhanced Family Resources Survey and PolicyEngine UK
-                microsimulation model.
-              </p>
-            </footer>
           </div>
         )}
       </main>

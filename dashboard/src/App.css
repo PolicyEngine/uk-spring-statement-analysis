@@ -294,6 +294,46 @@
   color: var(--pe-gray-400);
 }
 
+/* Card header with toggle */
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.view-toggle {
+  display: flex;
+  background: var(--pe-gray-100);
+  border-radius: 8px;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.view-toggle button {
+  background: none;
+  border: none;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--pe-gray-500);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.view-toggle button.active {
+  background: var(--pe-surface);
+  color: var(--pe-gray-800);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.view-toggle button:hover:not(.active) {
+  color: var(--pe-gray-700);
+}
+
 /* Chart container inside cards */
 .chart-container {
   margin: 12px 0;

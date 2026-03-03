@@ -1,27 +1,31 @@
 {
-  "source": "OBR Economic and Fiscal Outlook, March 2025",
-  "source_url": "https://obr.uk/efo/economic-and-fiscal-outlook-march-2025/",
-  "note": "Pre-Spring Statement 2026 baseline. All values are year-on-year growth rates (proportions, e.g. 0.032 = 3.2%).",
+  "source": "OBR Economic and Fiscal Outlook, November 2025",
+  "source_url": "https://obr.uk/efo/economic-and-fiscal-outlook-november-2025/",
+  "policyengine_uk_version": "2.74.0",
+  "note": "Pre-Spring Statement 2026 baseline. All values are year-on-year growth rates (proportions, e.g. 0.0345 = 3.45%).",
   "average_earnings": {
-    "2025": 0.037,
-    "2026": 0.022,
-    "2027": 0.021,
-    "2028": 0.023,
-    "2029": 0.025
+    "2025": 0.0517,
+    "2026": 0.0333,
+    "2027": 0.0225,
+    "2028": 0.0210,
+    "2029": 0.0221,
+    "2030": 0.0232
   },
   "cpi": {
-    "2025": 0.032,
-    "2026": 0.019,
-    "2027": 0.020,
-    "2028": 0.020,
-    "2029": 0.020
+    "2025": 0.0345,
+    "2026": 0.0248,
+    "2027": 0.0202,
+    "2028": 0.0204,
+    "2029": 0.0204,
+    "2030": 0.0200
   },
   "rpi": {
-    "2025": 0.037,
-    "2026": 0.022,
-    "2027": 0.021,
-    "2028": 0.023,
-    "2029": 0.025
+    "2025": 0.0433,
+    "2026": 0.0371,
+    "2027": 0.0313,
+    "2028": 0.0287,
+    "2029": 0.0291,
+    "2030": 0.0231
   },
   "parameter_paths": {
     "average_earnings": "gov.economic_assumptions.yoy_growth.obr.average_earnings",

@@ -2,6 +2,7 @@ from .config import YEAR
 from .simulation import load_sim, classify_benunits, compute_group_stats
 from .charts import generate_hnet_chart
 from .tables import build_economic_tables, generate_summary_table
+from .json_export import export_economic_forecast, export_household_data
 from .generate import main
 
 __all__ = [
@@ -12,5 +13,7 @@ __all__ = [
     "generate_hnet_chart",
     "build_economic_tables",
     "generate_summary_table",
+    "export_economic_forecast",
+    "export_household_data",
     "main",
 ]

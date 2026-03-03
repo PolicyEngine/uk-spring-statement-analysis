@@ -1,0 +1,8 @@
+[
+  { "group": "Single adult, no children", "mean_hnet": 22500, "median_hnet": 19800, "weighted_n": 4200000 },
+  { "group": "Couple, no children", "mean_hnet": 38200, "median_hnet": 34100, "weighted_n": 3800000 },
+  { "group": "Single parent", "mean_hnet": 24100, "median_hnet": 21500, "weighted_n": 1600000 },
+  { "group": "Couple with children", "mean_hnet": 42800, "median_hnet": 38900, "weighted_n": 3200000 },
+  { "group": "Single pensioner", "mean_hnet": 18900, "median_hnet": 16200, "weighted_n": 2100000 },
+  { "group": "Pensioner couple", "mean_hnet": 31500, "median_hnet": 27800, "weighted_n": 1900000 }
+]

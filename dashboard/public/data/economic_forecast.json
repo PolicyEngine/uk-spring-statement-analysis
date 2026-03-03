@@ -1,0 +1,54 @@
+{
+  "earnings_growth": [
+    {
+      "year": 2026,
+      "previous": 3.5,
+      "updated": null,
+      "change": null
+    },
+    {
+      "year": 2027,
+      "previous": 3.0,
+      "updated": null,
+      "change": null
+    },
+    {
+      "year": 2028,
+      "previous": 2.8,
+      "updated": null,
+      "change": null
+    },
+    {
+      "year": 2029,
+      "previous": 2.5,
+      "updated": null,
+      "change": null
+    }
+  ],
+  "cpi_inflation": [
+    {
+      "year": 2026,
+      "previous": 2.6,
+      "updated": null,
+      "change": null
+    },
+    {
+      "year": 2027,
+      "previous": 2.2,
+      "updated": null,
+      "change": null
+    },
+    {
+      "year": 2028,
+      "previous": 2.0,
+      "updated": null,
+      "change": null
+    },
+    {
+      "year": 2029,
+      "previous": 2.0,
+      "updated": null,
+      "change": null
+    }
+  ]
+}

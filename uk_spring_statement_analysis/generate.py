@@ -5,6 +5,7 @@ from pathlib import Path
 from .simulation import load_sim, compute_group_stats
 from .charts import generate_hnet_chart
 from .tables import build_economic_tables, generate_summary_table
+from .json_export import export_economic_forecast, export_household_data
 
 
 def main():
@@ -28,6 +29,11 @@ def main():
 
     print("Generating summary table...")
     summary_table = generate_summary_table(baseline_stats, reformed_stats)
+
+    # Export JSON for the React dashboard
+    print("Exporting JSON for dashboard...")
+    export_economic_forecast()
+    export_household_data(baseline_stats, reformed_stats)
 
     # Read the template markdown
     md_path = Path(__file__).parents[1] / "spring-statement-2026-blog.md"

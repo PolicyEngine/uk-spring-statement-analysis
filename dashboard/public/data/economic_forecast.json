@@ -3,52 +3,78 @@
     {
       "year": 2026,
       "previous": 3.5,
-      "updated": null,
-      "change": null
+      "updated": 3.4,
+      "change": -0.1
     },
     {
       "year": 2027,
       "previous": 3.0,
-      "updated": null,
-      "change": null
+      "updated": 2.4,
+      "change": -0.6
     },
     {
       "year": 2028,
       "previous": 2.8,
-      "updated": null,
-      "change": null
+      "updated": 2.1,
+      "change": -0.7
     },
     {
       "year": 2029,
       "previous": 2.5,
-      "updated": null,
-      "change": null
+      "updated": 2.2,
+      "change": -0.3
     }
   ],
   "cpi_inflation": [
     {
       "year": 2026,
       "previous": 2.6,
-      "updated": null,
-      "change": null
+      "updated": 2.3,
+      "change": -0.3
     },
     {
       "year": 2027,
       "previous": 2.2,
-      "updated": null,
-      "change": null
+      "updated": 2.0,
+      "change": -0.2
     },
     {
       "year": 2028,
       "previous": 2.0,
-      "updated": null,
-      "change": null
+      "updated": 2.0,
+      "change": 0.0
     },
     {
       "year": 2029,
       "previous": 2.0,
-      "updated": null,
-      "change": null
+      "updated": 2.0,
+      "change": 0.0
+    }
+  ],
+  "rpi_inflation": [
+    {
+      "year": 2026,
+      "previous": 3.7,
+      "updated": 3.1,
+      "change": -0.6
+    },
+    {
+      "year": 2027,
+      "previous": 3.1,
+      "updated": 3.0,
+      "change": -0.1
+    },
+    {
+      "year": 2028,
+      "previous": 2.9,
+      "updated": 2.8,
+      "change": -0.1
+    },
+    {
+      "year": 2029,
+      "previous": 2.9,
+      "updated": 2.9,
+      "change": 0.0
     }
   ]
 }

@@ -10,19 +10,34 @@ from .json_export import export_economic_forecast, export_household_data
 
 def main():
     print("Generating economic forecast tables...")
-    earnings_table, inflation_table = build_economic_tables()
+    earnings_table, inflation_table, rpi_table = build_economic_tables()
 
     print("Loading baseline microsimulation...")
     baseline = load_sim()
     baseline_stats = compute_group_stats(baseline)
+    print("Baseline stats:")
     print(baseline_stats.to_string(index=False))
 
-    # TODO: once we have the Spring Statement reform, load a reformed sim:
-    # from policyengine_uk import Scenario
-    # scenario = Scenario(parameter_changes={...})
-    # reformed = load_sim(scenario=scenario)
-    # reformed_stats = compute_group_stats(reformed)
-    reformed_stats = None
+    # Spring Statement 2026 reform: updated OBR economic assumptions
+    print("Loading reformed microsimulation (Spring Statement 2026)...")
+    spring_statement_reform = {
+        "gov.economic_assumptions.yoy_growth.obr.average_earnings": {
+            "2026-01-01": 0.034,
+            "2027-01-01": 0.024,
+            "2028-01-01": 0.021,
+            "2029-01-01": 0.022,
+        },
+        "gov.economic_assumptions.yoy_growth.obr.consumer_price_index": {
+            "2026-01-01": 0.023,
+            "2027-01-01": 0.020,
+            "2028-01-01": 0.020,
+            "2029-01-01": 0.020,
+        },
+    }
+    reformed = load_sim(reform=spring_statement_reform)
+    reformed_stats = compute_group_stats(reformed)
+    print("Reformed stats:")
+    print(reformed_stats.to_string(index=False))
 
     print("Generating chart...")
     generate_hnet_chart(baseline_stats)

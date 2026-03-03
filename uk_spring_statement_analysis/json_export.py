@@ -6,8 +6,10 @@ from pathlib import Path
 from .config import (
     PREV_EARNINGS_GROWTH,
     PREV_CPI_INFLATION,
+    PREV_RPI_INFLATION,
     UPDATED_EARNINGS_GROWTH,
     UPDATED_CPI_INFLATION,
+    UPDATED_RPI_INFLATION,
 )
 
 DATA_DIR = Path(__file__).parents[1] / "dashboard" / "public" / "data"
@@ -40,7 +42,19 @@ def export_economic_forecast():
             "change": change_i,
         })
 
-    data = {"earnings_growth": earnings, "cpi_inflation": inflation}
+    rpi = []
+    for yr in [2026, 2027, 2028, 2029]:
+        prev_r = PREV_RPI_INFLATION[yr]
+        upd_r = UPDATED_RPI_INFLATION[yr]
+        change_r = round(upd_r - prev_r, 1) if upd_r is not None else None
+        rpi.append({
+            "year": yr,
+            "previous": prev_r,
+            "updated": upd_r,
+            "change": change_r,
+        })
+
+    data = {"earnings_growth": earnings, "cpi_inflation": inflation, "rpi_inflation": rpi}
     out = DATA_DIR / "economic_forecast.json"
     out.write_text(json.dumps(data, indent=2))
     print(f"  Written {out}")

@@ -12,10 +12,12 @@ YEAR = 2029  # Forecast year of interest
 # Previous forecast (Autumn Statement 2025)
 PREV_EARNINGS_GROWTH = {2026: 3.5, 2027: 3.0, 2028: 2.8, 2029: 2.5}
 PREV_CPI_INFLATION = {2026: 2.6, 2027: 2.2, 2028: 2.0, 2029: 2.0}
+PREV_RPI_INFLATION = {2026: 3.7, 2027: 3.1, 2028: 2.9, 2029: 2.9}
 
-# Updated forecast (Spring Statement 2026) — fill in from EFO tables
-UPDATED_EARNINGS_GROWTH = {2026: None, 2027: None, 2028: None, 2029: None}
-UPDATED_CPI_INFLATION = {2026: None, 2027: None, 2028: None, 2029: None}
+# Updated forecast (Spring Statement 2026) — from OBR EFO March 2026, Table A.1
+UPDATED_EARNINGS_GROWTH = {2026: 3.4, 2027: 2.4, 2028: 2.1, 2029: 2.2}
+UPDATED_CPI_INFLATION = {2026: 2.3, 2027: 2.0, 2028: 2.0, 2029: 2.0}
+UPDATED_RPI_INFLATION = {2026: 3.1, 2027: 3.0, 2028: 2.8, 2029: 2.9}
 
 # Household group definitions
 GROUPS = {

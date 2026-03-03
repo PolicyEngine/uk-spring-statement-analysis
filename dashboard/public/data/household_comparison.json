@@ -1,8 +1,38 @@
 [
-  { "group": "Single adult, no children", "baseline_hnet": 22500, "reformed_hnet": 22500, "change": 0 },
-  { "group": "Couple, no children", "baseline_hnet": 38200, "reformed_hnet": 38200, "change": 0 },
-  { "group": "Single parent", "baseline_hnet": 24100, "reformed_hnet": 24100, "change": 0 },
-  { "group": "Couple with children", "baseline_hnet": 42800, "reformed_hnet": 42800, "change": 0 },
-  { "group": "Single pensioner", "baseline_hnet": 18900, "reformed_hnet": 18900, "change": 0 },
-  { "group": "Pensioner couple", "baseline_hnet": 31500, "reformed_hnet": 31500, "change": 0 }
+  {
+    "group": "Single adult, no children",
+    "baseline_hnet": 29438,
+    "reformed_hnet": 29438,
+    "change": 0
+  },
+  {
+    "group": "Couple, no children",
+    "baseline_hnet": 64188,
+    "reformed_hnet": 64188,
+    "change": 0
+  },
+  {
+    "group": "Single parent",
+    "baseline_hnet": 39886,
+    "reformed_hnet": 39886,
+    "change": 0
+  },
+  {
+    "group": "Couple with children",
+    "baseline_hnet": 74966,
+    "reformed_hnet": 74966,
+    "change": 0
+  },
+  {
+    "group": "Single pensioner",
+    "baseline_hnet": 27033,
+    "reformed_hnet": 27033,
+    "change": 0
+  },
+  {
+    "group": "Pensioner couple",
+    "baseline_hnet": 54118,
+    "reformed_hnet": 54118,
+    "change": 0
+  }
 ]

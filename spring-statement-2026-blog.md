@@ -10,10 +10,10 @@ The Chancellor delivered the Spring Statement 2026 today. Here we break down the
 
 | Year | Previous forecast | Updated forecast | Change |
 |------|-------------------|------------------|--------|
-| 2026 | | | |
-| 2027 | | | |
-| 2028 | | | |
-| 2029 | | | |
+| 2026 | 3.5% | 3.4% | -0.1pp |
+| 2027 | 3.0% | 2.4% | -0.6pp |
+| 2028 | 2.8% | 2.1% | -0.7pp |
+| 2029 | 2.5% | 2.2% | -0.3pp |
 
 ### Inflation
 
@@ -21,10 +21,10 @@ The Chancellor delivered the Spring Statement 2026 today. Here we break down the
 
 | Year | Previous forecast | Updated forecast | Change |
 |------|-------------------|------------------|--------|
-| 2026 | | | |
-| 2027 | | | |
-| 2028 | | | |
-| 2029 | | | |
+| 2026 | 2.6% | 2.3% | -0.3pp |
+| 2027 | 2.2% | 2.0% | -0.2pp |
+| 2028 | 2.0% | 2.0% | +0.0pp |
+| 2029 | 2.0% | 2.0% | +0.0pp |
 
 ### Other key economic assumptions
 
@@ -40,17 +40,15 @@ The changes in the economic forecast have direct implications for household livi
 
 ### Average household net income by family type (2029 projection)
 
-[Line charts showing projected household net income across the earnings distribution for different household types.]
+![Average household net income by family type](output/hnet_by_group.png)
 
 ### Change in net income from previous forecast
 
-[Table or chart showing the change in projected 2029 household net income by family type, comparing the previous forecast to the updated one.]
-
 | Household type | Previous 2029 hnet | Updated 2029 hnet | Change |
 |----------------|--------------------|--------------------|--------|
-| Single adult, no children | | | |
-| Couple, no children | | | |
-| Single parent, 2 children | | | |
-| Couple, 2 children | | | |
-| Single pensioner | | | |
-| Pensioner couple | | | |
+| Single adult, no children | £29,438 | £29,438 | £+0 |
+| Couple, no children | £64,188 | £64,188 | £+0 |
+| Single parent | £39,886 | £39,886 | £+0 |
+| Couple with children | £74,966 | £74,966 | £+0 |
+| Single pensioner | £27,033 | £27,033 | £+0 |
+| Pensioner couple | £54,118 | £54,118 | £+0 |

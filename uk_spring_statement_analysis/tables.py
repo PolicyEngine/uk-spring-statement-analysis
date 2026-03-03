@@ -5,8 +5,10 @@ import pandas as pd
 from .config import (
     PREV_EARNINGS_GROWTH,
     PREV_CPI_INFLATION,
+    PREV_RPI_INFLATION,
     UPDATED_EARNINGS_GROWTH,
     UPDATED_CPI_INFLATION,
+    UPDATED_RPI_INFLATION,
 )
 
 
@@ -31,11 +33,22 @@ def build_economic_tables():
             f"| {yr} | {prev_i:.1f}% | {upd_i_str} | {change_i} |"
         )
 
+    rows_rpi = []
+    for yr in [2026, 2027, 2028, 2029]:
+        prev_r = PREV_RPI_INFLATION[yr]
+        upd_r = UPDATED_RPI_INFLATION[yr]
+        change_r = f"{upd_r - prev_r:+.1f}pp" if upd_r is not None else ""
+        upd_r_str = f"{upd_r:.1f}%" if upd_r is not None else ""
+        rows_rpi.append(
+            f"| {yr} | {prev_r:.1f}% | {upd_r_str} | {change_r} |"
+        )
+
     header = "| Year | Previous forecast | Updated forecast | Change |"
     sep = "|------|-------------------|------------------|--------|"
     earnings_table = "\n".join([header, sep] + rows_earnings)
     inflation_table = "\n".join([header, sep] + rows_inflation)
-    return earnings_table, inflation_table
+    rpi_table = "\n".join([header, sep] + rows_rpi)
+    return earnings_table, inflation_table, rpi_table
 
 
 def generate_summary_table(

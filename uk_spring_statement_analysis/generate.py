@@ -8,7 +8,34 @@ from .tables import build_economic_tables, generate_summary_table
 from .json_export import export_economic_forecast, export_household_data
 
 
+# Spring Statement 2026 updated values (OBR EFO March 2026, Table A.1)
+# Passed as parameter_changes with applied_before_data_load=True so
+# uprating uses the new economic assumptions.
+SPRING_STATEMENT_PARAMS = {
+    "gov.economic_assumptions.yoy_growth.obr.average_earnings": {
+        "2026-01-01": 0.034,
+        "2027-01-01": 0.024,
+        "2028-01-01": 0.021,
+        "2029-01-01": 0.022,
+    },
+    "gov.economic_assumptions.yoy_growth.obr.consumer_price_index": {
+        "2026-01-01": 0.023,
+        "2027-01-01": 0.020,
+        "2028-01-01": 0.020,
+        "2029-01-01": 0.020,
+    },
+    "gov.economic_assumptions.yoy_growth.obr.rpi": {
+        "2026-01-01": 0.031,
+        "2027-01-01": 0.030,
+        "2028-01-01": 0.028,
+        "2029-01-01": 0.029,
+    },
+}
+
+
 def main():
+    from policyengine_uk.utils.scenario import Scenario
+
     print("Generating economic forecast tables...")
     earnings_table, inflation_table, rpi_table = build_economic_tables()
 
@@ -18,23 +45,14 @@ def main():
     print("Baseline stats:")
     print(baseline_stats.to_string(index=False))
 
-    # Spring Statement 2026 reform: updated OBR economic assumptions
+    # Create a Scenario with applied_before_data_load=True so the
+    # parameter changes feed into uprating (not just the formula graph).
     print("Loading reformed microsimulation (Spring Statement 2026)...")
-    spring_statement_reform = {
-        "gov.economic_assumptions.yoy_growth.obr.average_earnings": {
-            "2026-01-01": 0.034,
-            "2027-01-01": 0.024,
-            "2028-01-01": 0.021,
-            "2029-01-01": 0.022,
-        },
-        "gov.economic_assumptions.yoy_growth.obr.consumer_price_index": {
-            "2026-01-01": 0.023,
-            "2027-01-01": 0.020,
-            "2028-01-01": 0.020,
-            "2029-01-01": 0.020,
-        },
-    }
-    reformed = load_sim(reform=spring_statement_reform)
+    scenario = Scenario(
+        parameter_changes=SPRING_STATEMENT_PARAMS,
+        applied_before_data_load=True,
+    )
+    reformed = load_sim(scenario=scenario)
     reformed_stats = compute_group_stats(reformed)
     print("Reformed stats:")
     print(reformed_stats.to_string(index=False))

@@ -6,10 +6,10 @@ from policyengine_uk import Microsimulation
 from .config import YEAR, GROUPS
 
 
-def load_sim(reform=None):
-    """Load a Microsimulation, optionally with a reform."""
-    if reform is not None:
-        return Microsimulation(reform=reform)
+def load_sim(scenario=None):
+    """Load a Microsimulation, optionally with a scenario."""
+    if scenario is not None:
+        return Microsimulation(scenario=scenario)
     return Microsimulation()
 
 

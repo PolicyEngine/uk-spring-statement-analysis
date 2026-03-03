@@ -61,7 +61,7 @@ export default function ForecastTable({ columns, rows, format = "pct" }) {
             <tr key={i}>
               {row.map((cell, j) => (
                 <td key={j}>
-                  {j === 0
+                  {j === 0 || typeof cell === "string"
                     ? cell
                     : j === columns.length - 1
                       ? fmtChange(cell)

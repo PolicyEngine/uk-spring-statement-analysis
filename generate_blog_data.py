@@ -11,7 +11,7 @@ NOTE: The OBR economic determinants below are placeholders.
 Replace with actual values from the EFO tables once published.
 """
 
-from policyengine_uk import Simulation
+from policyengine_uk import Simulation, Microsimulation
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -315,17 +315,27 @@ def generate_hnet_charts():
 # 4. Summary table: hnet at median earnings for each archetype
 # ---------------------------------------------------------------------------
 
-MEDIAN_EARNINGS = 35_000  # Approximate UK median — update if needed
+def get_median_earnings() -> float:
+    """Compute weighted median employment income for working-age adults
+    with positive earnings from the PE UK microsimulation data."""
+    sim = Microsimulation()
+    income = sim.calculate("employment_income", YEAR)
+    age = sim.calculate("age", YEAR)
+
+    mask = (age >= 18) & (age < 66) & (income > 0)
+    return float(income[mask].median())
 
 
 def generate_summary_table() -> str:
     """Generate the markdown summary table of hnet by household type."""
+    median_earnings = get_median_earnings()
+    print(f"  Using median earnings: £{median_earnings:,.0f}")
     rows = []
     for label, key in ARCHETYPES.items():
         if "pensioner" in key:
             earnings = 0
         else:
-            earnings = MEDIAN_EARNINGS
+            earnings = median_earnings
 
         situation = make_situation(key, earnings)
         sim = Simulation(situation=situation)

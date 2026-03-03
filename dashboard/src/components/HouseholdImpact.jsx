@@ -39,7 +39,7 @@ function HnetBarChart({ data }) {
   return (
     <div className="section-card">
       <h2>Average household net income by family type</h2>
-      <p>Weighted mean household net income (2029 projection)</p>
+      <p>Mean household net income (2029 projection)</p>
       <div className="chart-container">
         <ResponsiveContainer width="100%" height={360}>
           <BarChart
@@ -116,13 +116,13 @@ export default function HouseholdImpact({ stats, comparison }) {
         </p>
       </div>
 
-      <div className="hero-chart">
-        <HnetBarChart data={stats} />
-      </div>
-
       <div className="section-card" style={{ animationDelay: "0.4s" }}>
         <h3>Household income summary</h3>
         <ForecastTable columns={mergedColumns} rows={mergedRows} format="gbp" />
+      </div>
+
+      <div className="hero-chart">
+        <HnetBarChart data={stats} />
       </div>
     </>
   );

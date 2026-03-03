@@ -55,7 +55,7 @@ function ForecastLineChart({ data, title, description, unit }) {
             <Line
               type="monotone"
               dataKey="previous"
-              name="Previous forecast"
+              name="Pre-Spring Statement"
               stroke={COLORS.previous}
               strokeWidth={2}
               dot={{ r: 4 }}
@@ -64,7 +64,7 @@ function ForecastLineChart({ data, title, description, unit }) {
             <Line
               type="monotone"
               dataKey="updated"
-              name="Updated forecast"
+              name="Spring Statement"
               stroke={COLORS.updated}
               strokeWidth={2.5}
               dot={{ r: 4 }}
@@ -123,16 +123,15 @@ export default function EconomicForecast({ forecast, baseline }) {
     r.change,
   ]);
 
-  const columns = ["Year", "Previous forecast", "Updated forecast", "Change"];
+  const columns = ["Year", "Pre-Spring Statement", "Spring Statement", "Change"];
 
   return (
     <>
-      <div className="section-card" style={{ animationDelay: "0.15s" }}>
+      <div className="section-heading" style={{ animationDelay: "0.15s" }}>
         <h2>Economic forecast: what changed</h2>
         <p>
-          Key revisions to the OBR's economic forecast compared to the Autumn
-          Statement November 2025
-          {baseline ? ` (source: ${baseline.source})` : ""}.
+          Comparing pre-Spring Statement 2026 (OBR EFO November 2025) with
+          Spring Statement 2026 (OBR EFO March 2026) forecasts.
         </p>
       </div>
 

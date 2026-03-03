@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import EconomicForecast from "./components/EconomicForecast";
-import FiscalOutlook from "./components/FiscalOutlook";
 import HouseholdImpact from "./components/HouseholdImpact";
 import PersonalCalculator from "./components/PersonalCalculator";
 import "./App.css";
@@ -85,42 +84,12 @@ function App() {
 
         {activeTab === "analysis" && (
           <>
-            <p className="dashboard-intro">
-              PolicyEngine analysis of the OBR{" "}
-              <a
-                href="https://assets.publishing.service.gov.uk/media/69a6d7b62e1f4fbda4252208/economic-and-fiscal-outlook-march-2026-web-accessible.pdf"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Economic and Fiscal Outlook, March 2026
-              </a>{" "}
-              revisions and their impact on household incomes across the UK. Data
-              sourced from the Enhanced Family Resources Survey and PolicyEngine UK
-              microsimulation model.
-            </p>
-
             {error && <p className="loading">Error loading data: {error}</p>}
             {loading && !error && <p className="loading">Loading data...</p>}
             {!loading && !error && (
               <div className="results-container">
                 <EconomicForecast forecast={forecast} baseline={baseline} />
-                <FiscalOutlook />
                 <HouseholdImpact stats={stats} comparison={comparison} />
-
-                <footer className="footer">
-                  <p>
-                    Built by{" "}
-                    <a
-                      href="https://policyengine.org"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      PolicyEngine
-                    </a>{" "}
-                    using the Enhanced Family Resources Survey and PolicyEngine UK
-                    microsimulation model.
-                  </p>
-                </footer>
               </div>
             )}
           </>

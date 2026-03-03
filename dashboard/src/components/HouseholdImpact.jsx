@@ -29,10 +29,12 @@ function formatCurrency(v) {
 }
 
 function HnetBarChart({ data }) {
-  const chartData = data.map((d) => ({
-    group: shorten(d.group),
-    mean_hnet: Math.round(d.mean_hnet),
-  }));
+  const chartData = data
+    .map((d) => ({
+      group: shorten(d.group),
+      mean_hnet: Math.round(d.mean_hnet),
+    }))
+    .sort((a, b) => a.mean_hnet - b.mean_hnet);
 
   return (
     <div className="section-card">

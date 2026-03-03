@@ -107,7 +107,7 @@ export default function HouseholdImpact({ stats, comparison }) {
 
   return (
     <>
-      <div className="section-card" style={{ animationDelay: "0.35s" }}>
+      <div className="section-heading" style={{ animationDelay: "0.35s" }}>
         <h2>What this means for households</h2>
         <p>
           Using PolicyEngine's microsimulation model, we calculated average

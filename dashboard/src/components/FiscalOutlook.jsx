@@ -1,6 +1,6 @@
 export default function FiscalOutlook() {
   return (
-    <div className="section-card" style={{ animationDelay: "0.3s" }}>
+    <div className="section-heading" style={{ animationDelay: "0.3s" }}>
       <h2>Fiscal outlook</h2>
       <p>
         The Spring Statement includes updates to the government's fiscal

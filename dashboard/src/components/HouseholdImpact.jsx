@@ -80,58 +80,6 @@ function HnetBarChart({ data }) {
   );
 }
 
-function ComparisonChart({ data }) {
-  const chartData = data.map((d) => ({
-    group: shorten(d.group),
-    baseline: Math.round(d.baseline_hnet),
-    reformed: Math.round(d.reformed_hnet),
-  }));
-
-  return (
-    <div className="section-card">
-      <h2>Baseline vs reformed household net income</h2>
-      <p>Comparison of average household net income under baseline and reformed forecasts</p>
-      <div className="chart-container">
-        <ResponsiveContainer width="100%" height={360}>
-          <BarChart
-            data={chartData}
-            margin={{ top: 10, right: 30, left: 10, bottom: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis dataKey="group" tick={{ fontSize: 11 }} />
-            <YAxis
-              tickFormatter={(v) => `£${(v / 1000).toFixed(0)}k`}
-              tick={{ fontSize: 13 }}
-            />
-            <Tooltip
-              formatter={(v) => formatCurrency(v)}
-              contentStyle={{
-                background: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: 8,
-                fontSize: 13,
-              }}
-            />
-            <Legend wrapperStyle={{ fontSize: 13 }} />
-            <Bar
-              dataKey="baseline"
-              name="Baseline"
-              fill={GRAY}
-              animationDuration={500}
-            />
-            <Bar
-              dataKey="reformed"
-              name="Reformed"
-              fill={TEAL}
-              animationDuration={500}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  );
-}
-
 export default function HouseholdImpact({ stats, comparison }) {
   if (!stats || !comparison) return null;
 
@@ -174,10 +122,6 @@ export default function HouseholdImpact({ stats, comparison }) {
       <div className="section-card" style={{ animationDelay: "0.4s" }}>
         <h3>Household net income statistics</h3>
         <ForecastTable columns={statsColumns} rows={statsRows} format="gbp" />
-      </div>
-
-      <div className="hero-chart">
-        <ComparisonChart data={comparison} />
       </div>
 
       <div className="section-card" style={{ animationDelay: "0.5s" }}>

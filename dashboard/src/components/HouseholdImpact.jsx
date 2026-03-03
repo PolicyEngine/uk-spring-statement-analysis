@@ -85,26 +85,27 @@ function HnetBarChart({ data }) {
 export default function HouseholdImpact({ stats, comparison }) {
   if (!stats || !comparison) return null;
 
-  const statsColumns = ["Household type", "Mean hnet", "Median hnet", "Weighted N"];
-  const statsRows = stats.map((r) => [
-    r.group,
-    r.mean_hnet,
-    r.median_hnet,
-    Math.round(r.weighted_n).toLocaleString("en-GB"),
-  ]);
-
-  const compColumns = [
+  const mergedColumns = [
     "Household type",
-    "Baseline hnet",
-    "Reformed hnet",
+    "Mean income",
+    "Median income",
+    "Population",
+    "Pre-Spring Statement",
+    "Spring Statement",
     "Change",
   ];
-  const compRows = comparison.map((r) => [
-    r.group,
-    r.baseline_hnet,
-    r.reformed_hnet,
-    r.change,
-  ]);
+  const mergedRows = stats.map((r) => {
+    const comp = comparison.find((c) => c.group === r.group) || {};
+    return [
+      r.group,
+      r.mean_hnet,
+      r.median_hnet,
+      Math.round(r.weighted_n).toLocaleString("en-GB"),
+      comp.baseline_hnet,
+      comp.reformed_hnet,
+      comp.change,
+    ];
+  });
 
   return (
     <>
@@ -112,8 +113,8 @@ export default function HouseholdImpact({ stats, comparison }) {
         <h2>What this means for households</h2>
         <p>
           Using PolicyEngine's microsimulation model, we calculated average
-          household net income for six household groups under the baseline and
-          updated forecasts.
+          household net income for six household groups under pre-Spring
+          Statement and Spring Statement 2026 forecasts.
         </p>
       </div>
 
@@ -122,13 +123,8 @@ export default function HouseholdImpact({ stats, comparison }) {
       </div>
 
       <div className="section-card" style={{ animationDelay: "0.4s" }}>
-        <h3>Household net income statistics</h3>
-        <ForecastTable columns={statsColumns} rows={statsRows} format="gbp" />
-      </div>
-
-      <div className="section-card" style={{ animationDelay: "0.5s" }}>
-        <h3>Change in net income from previous forecast</h3>
-        <ForecastTable columns={compColumns} rows={compRows} format="gbp" />
+        <h3>Household income summary</h3>
+        <ForecastTable columns={mergedColumns} rows={mergedRows} format="gbp" />
       </div>
     </>
   );

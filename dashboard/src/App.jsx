@@ -37,10 +37,17 @@ function App() {
         </div>
 
         <p className="dashboard-intro">
-          PolicyEngine analysis of the OBR economic forecast revisions and their
-          impact on household incomes across the UK. Data sourced from the
-          Enhanced Family Resources Survey and PolicyEngine UK microsimulation
-          model.
+          PolicyEngine analysis of the OBR{" "}
+          <a
+            href="https://assets.publishing.service.gov.uk/media/69a6d7b62e1f4fbda4252208/economic-and-fiscal-outlook-march-2026-web-accessible.pdf"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Economic and Fiscal Outlook, March 2026
+          </a>{" "}
+          revisions and their impact on household incomes across the UK. Data
+          sourced from the Enhanced Family Resources Survey and PolicyEngine UK
+          microsimulation model.
         </p>
 
         {error && <p className="loading">Error loading data: {error}</p>}
